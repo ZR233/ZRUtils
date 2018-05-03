@@ -1,8 +1,8 @@
-#pragma once
-#include "boost/asio.hpp"
+ï»¿#pragma once
+#include <boost/asio.hpp>
 #include <vector>
 #include <exception>
-#include "boost/exception/all.hpp"
+#include <boost/exception/all.hpp>
 namespace zrutils
 {
 	static inline uint64_t hton64(uint64_t x)
@@ -45,26 +45,26 @@ namespace zrutils
 /*************************************************
 Author:zr
 Date:2018-03-5
-Description:Òì³£Àà º¬´íÎóÂë Öğ¼¶Ôö¼ÓĞÅÏ¢¹¦ÄÜ
+Description:å¼‚å¸¸ç±» å«é”™è¯¯ç  é€çº§å¢åŠ ä¿¡æ¯åŠŸèƒ½
 **************************************************/
 
 
 	//
-	//Òì³£Àà º¬´íÎóÂë Öğ¼¶Ôö¼ÓĞÅÏ¢¹¦ÄÜ
+	//å¼‚å¸¸ç±» å«é”™è¯¯ç  é€çº§å¢åŠ ä¿¡æ¯åŠŸèƒ½
 	class exception :
 		virtual public std::exception,
 		virtual public boost::exception
 	{
 	public:
-		//@error_str ´íÎóÎÄ×Ö
+		//@error_str é”™è¯¯æ–‡å­—
 		exception(std::string error_str) {
 			typedef boost::error_info<struct tag_erro_no, int> err_no;
 			typedef boost::error_info<struct tag_erro_str, std::string> err_str;
 			(*this) << err_str(error_str);
 			v_.push_back(error_str);
 		};
-		//@error_str ´íÎóÎÄ×Ö
-		//@error_code ´íÎóºÅ
+		//@error_str é”™è¯¯æ–‡å­—
+		//@error_code é”™è¯¯å·
 		exception(std::string error_str, int error_code) {
 			typedef boost::error_info<struct tag_erro_no, int> err_no;
 			typedef boost::error_info<struct tag_erro_str, std::string> err_str;
@@ -74,7 +74,7 @@ Description:Òì³£Àà º¬´íÎóÂë Öğ¼¶Ôö¼ÓĞÅÏ¢¹¦ÄÜ
 			(*this) << err_no(error_code);
 		};
 		virtual ~exception() {};
-		//ÔÚÇ°¶Ë¼ÓÈëĞÅÏ¢
+		//åœ¨å‰ç«¯åŠ å…¥ä¿¡æ¯
 		virtual void add(std::string a) {
 			v_.insert(v_.begin(), a);
 			//std::string str;
@@ -87,11 +87,11 @@ Description:Òì³£Àà º¬´íÎóÂë Öğ¼¶Ôö¼ÓĞÅÏ¢¹¦ÄÜ
 			//}
 			//(*this) << boost::error_info<struct tag_erro_str, std::string>(str);
 		};
-		//»ñÈ¡´íÎóĞÅÏ¢vector
+		//è·å–é”™è¯¯ä¿¡æ¯vector
 		virtual std::vector<std::string>& get() {
 			return v_;
 		};
-		//»ñÈ¡È«²¿´íÎóĞÅÏ¢
+		//è·å–å…¨éƒ¨é”™è¯¯ä¿¡æ¯
 		virtual std::string what() {
 			std::string str;
 			if (!v_.empty())
