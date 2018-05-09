@@ -3,6 +3,10 @@
 #include <vector>
 #include <exception>
 #include <boost/exception/all.hpp>
+#include <codecvt>
+#include <locale>
+
+
 namespace zrutils
 {
 	static inline uint64_t hton64(uint64_t x)
@@ -115,4 +119,29 @@ Description:异常类 含错误码 逐级增加信息功能
 	};
 	
 
+	static inline std::vector<uint8_t> char16toNetBytes(std::u16string x)
+	{
+		std::vector<uint8_t> buf;
+		for (size_t i = 0; i < x.size(); i++)
+		{
+			uint8_t one[2];
+			memcpy_s(one, 2, &(x[i]), 2);
+			buf.push_back(one[1]);
+			buf.push_back(one[0]);
+		}
+		return buf;
+	}
+	static inline std::vector<uint8_t> netBytestoChar16Bytes(std::vector<uint8_t> x)
+	{
+		std::vector<uint8_t> buf;
+		for (size_t i = 0; i < x.size()/2; i++)
+		{
+			uint8_t one[2];
+			one[0] = x[i * 2];
+			one[1] = x[i * 2 + 1];
+			buf.push_back(one[1]);
+			buf.push_back(one[0]);
+		}
+		return buf;
+	}
 }
